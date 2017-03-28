@@ -52,7 +52,10 @@ def autolog(
     formatter = logging.Formatter(
         '%(asctime)s :: %(levelname)s :: %(pathname)s:%(lineno)s :: %(message)s'
     )
-    file_handler = RotatingFileHandler(log_file, 'a', 1000000, 1)
+    if os.name == "nt":
+        file_handler = RotatingFileHandler(str(log_file), 'a', 1000000, 1)
+    else:
+        file_handler = RotatingFileHandler(log_file, 'a', 1000000, 1)
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
     filelogger.addHandler(file_handler)
